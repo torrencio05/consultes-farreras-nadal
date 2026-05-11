@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Josep – Farreras Nadal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .site-header { border-bottom: 3px solid var(--pink); }
+    .logo-icon   { background: var(--pink); }
+    .btn-primary { background: var(--pink); border-color: var(--pink); }
+    .btn-primary:hover { background: #DB2777; border-color: #DB2777; }
+    input:focus, select:focus, textarea:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(236,72,153,.12); }
+    .tab-btn.active { color: var(--pink); }
+    .stat-card { border-top: 3px solid var(--pink); }
+    .spinner { border-top-color: var(--pink); }
+  </style>
+</head>
+<body class="page-wrapper">
+
+<header class="site-header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon">FN</div>
+      <div class="logo-text">
+        <strong>Farreras Nadal</strong>
+        <span>Portal de Josep</span>
+      </div>
+    </a>
+    <div class="header-user">
+      <div class="avatar" style="background:var(--pink)">J</div>
+      <span>Josep</span>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="container">
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--amber)" id="statPendent">—</div>
+        <div class="stat-label">Assignades</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--green)" id="statRespost">—</div>
+        <div class="stat-label">Respostes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--pink)" id="statTotal">—</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div data-tab-group="main">
+        <div class="tabs-bar">
+          <button class="tab-btn active" data-tab="tabPendent">
+            📋 Assignades <span class="tab-badge" id="badgePendent">0</span>
+          </button>
+          <button class="tab-btn" data-tab="tabRespost">
+            ✅ Respostes <span class="tab-badge" id="badgeRespost">0</span>
+          </button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <button class="btn btn-secondary btn-sm" id="btnRefresh">↻ Actualitzar</button>
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar…" />
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content active consulta-list" id="tabPendent" data-tab-group="main">
+      <div class="loading-state"><div class="spinner"></div>Carregant…</div>
+    </div>
+    <div class="tab-content consulta-list" id="tabRespost" data-tab-group="main">
+      <div class="loading-state"><div class="spinner"></div>Carregant…</div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal Respondre -->
+<div class="modal-backdrop" id="modalRespond">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">✏️ Respondre consulta</h3>
+      <button class="modal-close" onclick="closeModal('modalRespond')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:1rem">
+        <label>Resposta <span class="req">*</span></label>
+        <textarea id="respondText" rows="5" placeholder="Escriu la teva resposta…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Arxiu adjunt (opcional)</label>
+        <div class="file-upload-area" id="uploadRespond">
+          <input type="file" id="fileInputRespond" multiple
+            accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.doc,.docx,.xls,.xlsx,.txt" />
+          <div class="file-upload-icon">📂</div>
+          <div class="file-upload-label"><strong>Fes clic o arrossega</strong></div>
+          <div class="file-upload-hint">Màx. 10 MB per arxiu</div>
+          <div class="file-list"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modalRespond')">Cancel·lar</button>
+      <button class="btn btn-primary" id="btnSendRespond">Enviar resposta</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="app.js"></script>
+<script>
+  const RESPONSABLE  = 'josep';
+  const LIST_PENDENT = 'tabPendent';
+  const LIST_RESPOST = 'tabRespost';
+</script>
+<script src="responsable.js"></script>
+</body>
+</html>

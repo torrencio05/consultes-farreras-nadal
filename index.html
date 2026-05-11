@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Comercials – Farreras Nadal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .new-consulta-toggle {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .875rem; font-weight: 600; color: var(--primary);
+      background: var(--primary-light); border: 1.5px solid var(--primary);
+      border-radius: var(--radius-sm); padding: .5rem 1.125rem;
+      cursor: pointer; transition: all var(--transition);
+    }
+    .new-consulta-toggle:hover { background: var(--primary); color: var(--white); }
+    .form-section {
+      display: none; margin-bottom: 1.5rem;
+      animation: fadeIn .2s ease;
+    }
+    .form-section.open { display: block; }
+    .form-section-title {
+      font-size: .8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--grey-400);
+      margin: 1.125rem 0 .625rem; padding-bottom: .375rem;
+      border-bottom: 1px solid var(--grey-100);
+    }
+  </style>
+</head>
+<body class="page-wrapper">
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-icon">FN</div>
+      <div class="logo-text">
+        <strong>Farreras Nadal</strong>
+        <span>Portal Comercials</span>
+      </div>
+    </a>
+    <div class="header-user" id="headerUser">
+      <div class="avatar" id="headerAvatar">?</div>
+      <span id="headerName">—</span>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="container">
+
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--amber)" id="statPendents">—</div>
+        <div class="stat-label">Pendents</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--green)" id="statRespostes">—</div>
+        <div class="stat-label">Respostes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color:var(--primary)" id="statTotal">—</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+
+    <!-- New consulta toggle -->
+    <button class="new-consulta-toggle" id="toggleForm">
+      + Nova consulta
+    </button>
+
+    <!-- New consulta form -->
+    <div class="form-section" id="formSection">
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header">
+          <h3>Nova consulta</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-section-title">Dades de la consulta</div>
+          <div class="form-grid" id="consultaForm">
+
+            <div class="form-group">
+              <label>Referència <span class="req">*</span></label>
+              <input type="text" id="ref" placeholder="Ex: 2024-001" required />
+            </div>
+            <div class="form-group">
+              <label>Codi client</label>
+              <input type="text" id="codiClient" placeholder="Ex: C-0042" />
+            </div>
+            <div class="form-group">
+              <label>Nom client <span class="req">*</span></label>
+              <input type="text" id="nomClient" placeholder="Raó social" required />
+            </div>
+            <div class="form-group">
+              <label>Data consulta</label>
+              <input type="date" id="dataConsulta" />
+            </div>
+            <div class="form-group">
+              <label>Tipus</label>
+              <select id="tipus">
+                <option value="">— Selecciona —</option>
+                <option>Consulta</option>
+                <option>Oferta</option>
+                <option>Reclamació</option>
+                <option>Informació</option>
+                <option>Altres</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Material</label>
+              <input type="text" id="material" placeholder="Ex: Cartró ondulat" />
+            </div>
+            <div class="form-group">
+              <label>Mides</label>
+              <input type="text" id="mides" placeholder="Ex: 400x300x200" />
+            </div>
+            <div class="form-group">
+              <label>Qualitat</label>
+              <input type="text" id="qualitat" placeholder="Ex: BC ondulat" />
+            </div>
+            <div class="form-group">
+              <label>Nº entregues</label>
+              <input type="number" id="entregues" placeholder="0" min="0" />
+            </div>
+            <div class="form-group">
+              <label>Data entrega estimada</label>
+              <input type="date" id="dataEntrega" />
+            </div>
+            <div class="form-group">
+              <label>Competència</label>
+              <input type="text" id="competencia" placeholder="Ex: Empresa X" />
+            </div>
+
+            <div class="form-group full">
+              <label>Comentaris</label>
+              <textarea id="comentaris" placeholder="Descripció detallada de la consulta…"></textarea>
+            </div>
+
+            <div class="form-group full">
+              <label>Arxiu adjunt</label>
+              <div class="file-upload-area" id="uploadArea">
+                <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.doc,.docx,.xls,.xlsx,.txt" />
+                <div class="file-upload-icon">📂</div>
+                <div class="file-upload-label"><strong>Fes clic o arrossega</strong> per adjuntar arxius</div>
+                <div class="file-upload-hint">PDF, Word, Excel, imatges — màx. 10 MB per arxiu</div>
+                <div class="file-list"></div>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" id="cancelForm">Cancel·lar</button>
+            <button class="btn btn-primary" id="submitBtn">Enviar consulta</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs + search -->
+    <div class="section-header" style="margin-top:1.5rem">
+      <div data-tab-group="main">
+        <div class="tabs-bar">
+          <button class="tab-btn active" data-tab="tabPendent">
+            ⏳ Pendents <span class="tab-badge" id="badgePendent">0</span>
+          </button>
+          <button class="tab-btn" data-tab="tabRespostes">
+            ✅ Respostes <span class="tab-badge" id="badgeRespostes">0</span>
+          </button>
+        </div>
+      </div>
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Buscar consulta…" />
+      </div>
+    </div>
+
+    <!-- Pendents -->
+    <div class="tab-content active" id="tabPendent" data-tab-group="main">
+      <div id="listPendent" class="consulta-list">
+        <div class="loading-state"><div class="spinner"></div>Carregant consultes…</div>
+      </div>
+    </div>
+
+    <!-- Respostes -->
+    <div class="tab-content" id="tabRespostes" data-tab-group="main">
+      <div id="listRespostes" class="consulta-list">
+        <div class="loading-state"><div class="spinner"></div>Carregant consultes…</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="app.js"></script>
+<script>
+  // ── Identity ─────────────────────────────────────────────
+  const NOM    = getParam('nom')    || 'Comercial';
+  const CORREU = getParam('correu') || '';
+
+  document.getElementById('headerName').textContent = NOM;
+  document.getElementById('headerAvatar').textContent = NOM.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+
+  // ── Toggle form ──────────────────────────────────────────
+  const formSection = document.getElementById('formSection');
+  document.getElementById('toggleForm').addEventListener('click', () => {
+    formSection.classList.toggle('open');
+  });
+  document.getElementById('cancelForm').addEventListener('click', () => {
+    formSection.classList.remove('open');
+  });
+
+  // ── File upload ───────────────────────────────────────────
+  initFileUpload('uploadArea');
+
+  // ── Today default ─────────────────────────────────────────
+  document.getElementById('dataConsulta').value = new Date().toISOString().split('T')[0];
+
+  // ── Submit ────────────────────────────────────────────────
+  document.getElementById('submitBtn').addEventListener('click', async () => {
+    const ref       = document.getElementById('ref').value.trim();
+    const nomClient = document.getElementById('nomClient').value.trim();
+    if (!ref)       { showToast('La Referència és obligatòria.', 'error'); return; }
+    if (!nomClient) { showToast('El Nom client és obligatori.', 'error'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.classList.add('btn-loading');
+
+    try {
+      const arxius = await getFilesAsBase64('uploadArea');
+      const payload = {
+        accio: 'nova_consulta',
+        nom_comercial:    NOM,
+        correu_comercial: CORREU,
+        referencia:       ref,
+        codi_client:      document.getElementById('codiClient').value.trim(),
+        nom_client:       nomClient,
+        data_consulta:    document.getElementById('dataConsulta').value,
+        tipus:            document.getElementById('tipus').value,
+        material:         document.getElementById('material').value.trim(),
+        mides:            document.getElementById('mides').value.trim(),
+        qualitat:         document.getElementById('qualitat').value.trim(),
+        entregues:        document.getElementById('entregues').value,
+        data_entrega:     document.getElementById('dataEntrega').value,
+        competencia:      document.getElementById('competencia').value.trim(),
+        comentaris:       document.getElementById('comentaris').value.trim(),
+        arxius,
+      };
+
+      const res = await apiPost(payload);
+      if (res.ok) {
+        showToast('Consulta enviada correctament!', 'success');
+        formSection.classList.remove('open');
+        resetForm();
+        loadConsultes();
+      } else {
+        throw new Error(res.error || 'Error desconegut');
+      }
+    } catch(err) {
+      showToast('Error en enviar: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false; btn.classList.remove('btn-loading');
+    }
+  });
+
+  function resetForm() {
+    ['ref','codiClient','nomClient','tipus','material','mides','qualitat',
+     'entregues','dataEntrega','competencia','comentaris'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = el.tagName === 'SELECT' ? '' : '';
+    });
+    document.getElementById('dataConsulta').value = new Date().toISOString().split('T')[0];
+    fileStores['uploadArea'] = [];
+    const area = document.getElementById('uploadArea');
+    const list = area?.querySelector('.file-list');
+    if (list) list.innerHTML = '';
+  }
+
+  // ── Load consultes ────────────────────────────────────────
+  async function loadConsultes() {
+    try {
+      const data = await apiGet({ correu: CORREU });
+      const rows = Array.isArray(data) ? data : (data.rows || []);
+      renderConsultes(rows);
+    } catch(err) {
+      document.getElementById('listPendent').innerHTML   = errorHtml(err.message);
+      document.getElementById('listRespostes').innerHTML = errorHtml(err.message);
+    }
+  }
+
+  function renderConsultes(rows) {
+    const pendents   = rows.filter(r => (r.estat||'').toLowerCase() !== 'respos');
+    const respostes  = rows.filter(r => (r.estat||'').toLowerCase() === 'respos');
+
+    document.getElementById('statPendents').textContent  = pendents.length;
+    document.getElementById('statRespostes').textContent = respostes.length;
+    document.getElementById('statTotal').textContent     = rows.length;
+    document.getElementById('badgePendent').textContent  = pendents.length;
+    document.getElementById('badgeRespostes').textContent= respostes.length;
+
+    document.getElementById('listPendent').innerHTML   = pendents.length
+      ? pendents.map(r => consultaCardHtml(r, false)).join('')
+      : emptyHtml('cap consulta pendent', '⏳');
+
+    document.getElementById('listRespostes').innerHTML = respostes.length
+      ? respostes.map(r => consultaCardHtml(r, true)).join('')
+      : emptyHtml('cap resposta rebuda', '✅');
+
+    applySearch();
+  }
+
+  function consultaCardHtml(r, mostrarResposta) {
+    const arxiusComercial = arxiusHtml(r.arxius, 'Arxius adjunts (original)');
+    const arxiusResposta  = arxiusHtml(r.arxius_resposta, 'Arxius de la resposta');
+
+    const respostaSec = mostrarResposta && r.comentari_intern
+      ? `<div class="resposta-box">
+           <div class="resposta-label">📨 Resposta del director / responsable</div>
+           <div class="resposta-text">${escHtml(r.comentari_intern)}</div>
+         </div>`
+      : '';
+
+    return `
+    <div class="consulta-card" id="card-${r.id}">
+      <div class="consulta-card-header">
+        <span class="consulta-id">#${val(r.id)}</span>
+        <div class="consulta-info">
+          <div class="consulta-ref">${val(r.referencia)} — ${val(r.nom_client)}</div>
+          <div class="consulta-meta">
+            <span>📅 ${formatDate(r.data_entrada)}</span>
+            <span>📋 ${val(r.tipus)}</span>
+          </div>
+        </div>
+        <div class="consulta-badges">${badgeHtml(r)}</div>
+        <span class="consulta-chevron">▼</span>
+      </div>
+      <div class="consulta-card-body">
+        ${detailGrid([
+          ['Referència', r.referencia],
+          ['Codi client', r.codi_client],
+          ['Nom client',  r.nom_client],
+          ['Data consulta', formatDate(r.data_consulta)],
+          ['Tipus', r.tipus],
+          ['Material', r.material],
+          ['Mides', r.mides],
+          ['Qualitat', r.qualitat],
+          ['Nº entregues', r.entregues],
+          ['Data entrega', formatDate(r.data_entrega)],
+          ['Competència', r.competencia],
+        ])}
+        ${r.comentaris ? `<div class="consulta-comentari">${escHtml(r.comentaris)}</div>` : ''}
+        ${arxiusComercial}
+        ${respostaSec}
+        ${arxiusResposta}
+      </div>
+    </div>`;
+  }
+
+  function errorHtml(msg) {
+    return `<div class="empty-state">
+      <div class="empty-state-icon">⚠️</div>
+      <h3>Error de connexió</h3>
+      <p>${escHtml(msg)}</p>
+    </div>`;
+  }
+
+  function emptyHtml(text, icon) {
+    return `<div class="empty-state">
+      <div class="empty-state-icon">${icon}</div>
+      <h3>No hi ha ${text}</h3>
+      <p>Les consultes apareixeran aquí un cop enviades.</p>
+    </div>`;
+  }
+
+  // ── Bootstrap ─────────────────────────────────────────────
+  initSearch('searchInput');
+  if (CORREU) {
+    loadConsultes();
+    setInterval(loadConsultes, 60000);
+  } else {
+    document.getElementById('listPendent').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🔗</div>
+        <h3>Accés no vàlid</h3>
+        <p>Utilitza el link personalitzat que t'ha proporcionat la direcció.</p>
+      </div>`;
+    document.getElementById('listRespostes').innerHTML = document.getElementById('listPendent').innerHTML;
+    showToast('Cal accedir amb el teu link personalitzat.', 'warning');
+  }
+</script>
+
+</body>
+</html>
